@@ -8,6 +8,7 @@ import BookingModal from '@/features/booking/components/BookingModal';
 import SuccessCalculator from '@/features/calculator/components/SuccessCalculator';
 import Button from '@/components/ui/Button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function KilimanjaroPage() {
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
@@ -296,11 +297,15 @@ export default function KilimanjaroPage() {
             
             {/* Map Container */}
             <div className="bg-white dark:bg-gray-700 rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-600">
-              <img 
+              <Image 
                 src="/images/kilimanjaro/route-map.jpg" 
                 alt="Kilimanjaro Climbing Routes Map showing Machame, Lemosho, Shira, Umbwe, Marangu and Rongai routes with camps and elevations"
+                width={1200}
+                height={800}
                 className="w-full h-auto rounded-lg shadow-lg"
+                priority
               />
+              
               
               {/* Map Caption */}
               <div className="text-center mt-4">

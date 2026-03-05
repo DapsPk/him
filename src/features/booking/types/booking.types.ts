@@ -8,6 +8,7 @@ export interface BookingFormData {
     name: string;
     email: string;
     phone: string;
+    country?: string;
     specialRequirements?: string;
   };
 }
@@ -18,22 +19,62 @@ export interface BookingModalProps {
   tour: Tour | null;
 }
 
-// ✅ ADD THIS - Missing interface that your component needs
+// COMPLETELY REWRITTEN to match what BookingConfirmation.tsx expects
 export interface BookingConfirmationData {
   id: string;
+  bookingId: string;           // Added for display
+  bookingReference: string;     // Added for display
+  
+  // Tour information - this matches what the component uses
+  tour: {
+    id: string;
+    title: string;              // This is critical - used in line 14!
+    duration: string;
+    price: number;
+    image: string;
+    section?: string;           // Used for kilimanjaro check
+    category?: string;
+  };
   tourId: string;
   tourName: string;
-  customerName: string;
-  customerEmail: string;
+  
+  // Customer information - nested inside formData as the component expects
+  formData: {
+    participants: number;
+    customerInfo: {
+      name: string;
+      email: string;
+      phone: string;
+      country?: string;
+      specialRequirements?: string;
+    };
+  };
+  
+  // Also keep root-level fields for flexibility
+  customerName?: string;
+  customerEmail?: string;
   customerPhone?: string;
+  
+  // Dates
   bookingDate: string;
   travelDate: string;
+  departureDate?: string;
+  
+  // Pricing - support both totalAmount and totalPrice
+  totalAmount: number;          // Used in formatPrice(booking.totalAmount)
+  totalPrice?: number;          // For compatibility
+  
   numberOfGuests: number;
-  totalPrice: number;
+  
+  // Status
   status: 'pending' | 'confirmed' | 'cancelled';
   paymentStatus: 'pending' | 'paid' | 'refunded';
+  
+  // Optional fields
   specialRequests?: string;
-  createdAt: string;
+  
+  // Timestamps
+  createdAt: Date | string;
   updatedAt?: string;
 }
 
@@ -44,7 +85,6 @@ export interface BookingResponse {
   message?: string;
 }
 
-// ✅ ADD THIS - For creating new bookings
 export interface CreateBookingRequest {
   tourId: string;
   tourName: string;
@@ -54,4 +94,15 @@ export interface CreateBookingRequest {
   travelDate: string;
   numberOfGuests: number;
   specialRequests?: string;
+}
+
+export interface SerengetiBookingRequirements {
+  requiresPassport: boolean;
+  requiresVisa: boolean;
+  requiresYellowFever: boolean;
+  requiresTravelInsurance: boolean;
+  minAge: number;
+  recommendedFitness: string;
+  bestMonths: string[];
+  specialRequirements?: string[];
 }
